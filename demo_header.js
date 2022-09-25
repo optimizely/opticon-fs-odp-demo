@@ -1,4 +1,4 @@
-console.log("demo.js loaded");
+console.log("demo_header.js loaded");
 
 
 /**
