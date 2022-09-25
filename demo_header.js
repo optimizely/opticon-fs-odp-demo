@@ -23,19 +23,42 @@ optimizelyClient.onReady().then(() => {
  * Instrument the header banner using a Flag
  */
 
+const BANNER_SELECTOR = ".top-header__banner-text";
+const BANNER_TEXT_SELECTOR = ".top-header__banner-text p";
 
-const BANNER_SELECTOR = ".top-header__banner-text p";
-
-docReady().then(() => {
-
-    // Hack. The banner is displayed by default, so we hide it and then display it according to the flag settings
+function hideBanner() {
     waitForElm(BANNER_SELECTOR).then((banner) => {
         console.log("Hiding banner");
         banner.style.visibility = "hidden";
     });
+}
 
-    optimizelyClient.onReady
+function renderBanner({
+    banner_text = "Welcome to Mosey!",
+    banner_background_color = "black",
+    banner_text_color = "white",
+}) {
+    waitForElm(BANNER_SELECTOR).then((banner) => {
+        const text = querySelector(BANNER_TEXT_SELECTOR);
 
+        text.innerHtml = banner_text;
+        text.style.color = banner_text_color;
+        banner.style.backgroundColor = banner_background_color;
+        banner.style.visibility = "visible";
+    });
+}
+
+
+docReady().then(() => {
+
+    // Hack. The banner is displayed by default, so we hide it and then display it according to the flag settings
+    hideBanner();
+
+    optimizelyClient.onReady().then(() => {
+        const userCtx = window.optimizelyClient.createUserContext("user123");
+
+        renderBanner();
+    });
 });
 
 
@@ -49,6 +72,14 @@ docReady().then(() => {
 
 
 
+
+
+
+
+
+/**
+ * Library functions
+ */
 
 
 
