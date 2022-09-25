@@ -25,31 +25,39 @@ optimizelyClient.onReady().then(() => {
 
 const BANNER_SELECTOR = ".top-header__banner-text p";
 
-
-
 // Hack. The banner is displayed by default, so we hide it and then display it according to the flag settings
-const bodyInterval = setInterval(() => {
-    if (document.body) {
-        waitForElm(BANNER_SELECTOR).then((banner) => {
-            console.log("Hiding banner");
-            banner.style.visibility = "hidden";
-            clearBodyInterval();
-        });
-    }
-}, 10);
+function docBodyReady() {
+    return new Promise((resolve, reject) => {
+        const interval = setInterval(() => {
+            if (document.body) {
+                resolve();
+                clearInt();
+            }
+        }, 10);
 
-const clearBodyInterval = () => {
-    clearInterval(bodyInterval);
+        const clearInt = () => {
+            clearInterval(interval);
+        }
+    });
 }
 
-/*
-document.addEventListener("DOMContentLoaded", (event) => {
-    console.log("DOM fully loaded and parsed");
+docBodyReady().then(() => {
     waitForElm(BANNER_SELECTOR).then((banner) => {
         console.log("Hiding banner");
         banner.style.visibility = "hidden";
+        clearBodyInterval();
     });
-});*/
+});
+
+
+
+
+
+
+
+
+
+
 
 
 
