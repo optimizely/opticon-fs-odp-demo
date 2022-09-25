@@ -26,25 +26,26 @@ optimizelyClient.onReady().then(() => {
 const BANNER_SELECTOR = ".top-header__banner-text";
 const BANNER_TEXT_SELECTOR = ".top-header__banner-text p";
 
-function hideBanner() {
-    waitForElm(BANNER_SELECTOR).then((banner) => {
-        console.log("Hiding banner");
-        banner.style.visibility = "hidden";
-    });
-}
-
-function renderBanner({
+function renderBanner(enabled, {
     banner_text = "Welcome to Mosey!",
+    discount_pct = 0,
     banner_background_color = "black",
     banner_text_color = "white",
 }) {
     waitForElm(BANNER_SELECTOR).then((banner) => {
-        const text = querySelector(BANNER_TEXT_SELECTOR);
+        const text = document.querySelector(BANNER_TEXT_SELECTOR);
 
-        text.innerHtml = banner_text;
-        text.style.color = banner_text_color;
-        banner.style.backgroundColor = banner_background_color;
-        banner.style.visibility = "visible";
+        if (enabled) {
+            console.log("Rendering banner");
+            text.innerHTML = banner_text.replace("$discount_pct", discount_pct);
+            text.style.color = banner_text_color;
+            banner.style.backgroundColor = banner_background_color;
+            banner.style.visibility = "visible";
+        } else {
+            console.log("Hiding banner");
+            banner.style.visibility = "hidden";
+        }
+
     });
 }
 
@@ -52,12 +53,16 @@ function renderBanner({
 docReady().then(() => {
 
     // Hack. The banner is displayed by default, so we hide it and then display it according to the flag settings
-    hideBanner();
+    renderBanner(false, {});
 
     optimizelyClient.onReady().then(() => {
         const userCtx = window.optimizelyClient.createUserContext("user123");
 
-        renderBanner();
+        const decision = userCtx.decide("mosey_banner");
+
+        console.log(decision.variables);
+
+        renderBanner(decision.enabled, decision.variables);
     });
 });
 
@@ -85,6 +90,10 @@ docReady().then(() => {
 
 
 // Returns a promise that resolves when the document is ready
+/**
+ * docReady
+ * @returns a Promise that resolves when document.body is ready
+ */
 function docReady() {
     return new Promise((resolve, reject) => {
         const interval = setInterval(() => {
@@ -122,4 +131,14 @@ function waitForElm(selector) {
             subtree: true
         });
     });
+}
+
+/**
+ * getParam
+ * @param {string} param 
+ * @returns the value of the specified param (string or null)
+ */
+function getParam(param) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(param) || null;
 }
