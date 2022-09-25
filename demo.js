@@ -28,13 +28,28 @@ const BANNER_SELECTOR = ".top-header__banner-text p";
 
 
 // Hack. The banner is displayed by default, so we hide it and then display it according to the flag settings
+const bodyInterval = setInterval(() => {
+    if (document.body) {
+        waitForElm(BANNER_SELECTOR).then((banner) => {
+            console.log("Hiding banner");
+            banner.style.visibility = "hidden";
+            clearBodyInterval();
+        });
+    }
+}, 10);
+
+const clearBodyInterval = () => {
+    clearInterval(bodyInterval);
+}
+
+/*
 document.addEventListener("DOMContentLoaded", (event) => {
     console.log("DOM fully loaded and parsed");
     waitForElm(BANNER_SELECTOR).then((banner) => {
         console.log("Hiding banner");
         banner.style.visibility = "hidden";
     });
-});
+});*/
 
 
 
