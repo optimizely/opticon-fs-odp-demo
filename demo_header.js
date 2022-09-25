@@ -45,7 +45,6 @@ docBodyReady().then(() => {
     waitForElm(BANNER_SELECTOR).then((banner) => {
         console.log("Hiding banner");
         banner.style.visibility = "hidden";
-        clearBodyInterval();
     });
 });
 
