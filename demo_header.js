@@ -1,4 +1,5 @@
-console.log("demo_header.js loaded");
+const VERSION = "0.0.1";
+console.log(`demo_header.js loaded (v${VERSION})`);
 
 
 /**
@@ -25,27 +26,16 @@ optimizelyClient.onReady().then(() => {
 
 const BANNER_SELECTOR = ".top-header__banner-text p";
 
-// Hack. The banner is displayed by default, so we hide it and then display it according to the flag settings
-function docBodyReady() {
-    return new Promise((resolve, reject) => {
-        const interval = setInterval(() => {
-            if (document.body) {
-                resolve();
-                clearInt();
-            }
-        }, 10);
+docReady().then(() => {
 
-        const clearInt = () => {
-            clearInterval(interval);
-        }
-    });
-}
-
-docBodyReady().then(() => {
+    // Hack. The banner is displayed by default, so we hide it and then display it according to the flag settings
     waitForElm(BANNER_SELECTOR).then((banner) => {
         console.log("Hiding banner");
         banner.style.visibility = "hidden";
     });
+
+    optimizelyClient.onReady
+
 });
 
 
@@ -63,7 +53,21 @@ docBodyReady().then(() => {
 
 
 
+// Returns a promise that resolves when the document is ready
+function docReady() {
+    return new Promise((resolve, reject) => {
+        const interval = setInterval(() => {
+            if (document.body) {
+                resolve();
+                clearInt();
+            }
+        }, 10);
 
+        const clearInt = () => {
+            clearInterval(interval);
+        }
+    });
+}
 
 
 
