@@ -25,10 +25,17 @@ optimizelyClient.onReady().then(() => {
 
 const BANNER_SELECTOR = ".top-header__banner-text p";
 
+
+
 // Hack. The banner is displayed by default, so we hide it and then display it according to the flag settings
-waitForElm(BANNER_SELECTOR).then((banner) => {
-    banner.style.visibility = "hidden";
+document.addEventListener("DOMContentLoaded", (event) => {
+    console.log("DOM fully loaded and parsed");
+    waitForElm(BANNER_SELECTOR).then((banner) => {
+        console.log("Hiding banner");
+        banner.style.visibility = "hidden";
+    });
 });
+
 
 
 
