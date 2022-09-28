@@ -1,4 +1,4 @@
-import { renderHero, renderBanner, docReady, odpReady } from "./demo_lib";
+import { renderHero, renderBanner, docReady, odpReady } from "./demo_lib.js";
 
 const VERSION = "0.0.12";
 console.log(`demo_header.js loaded (v${VERSION})`);
