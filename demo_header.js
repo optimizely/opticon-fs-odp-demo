@@ -26,6 +26,27 @@ odpReady().then(() => {
 
 
 /**
+ * Instrument the banner with a flag
+ */
+docReady().then(() => {
+
+    // Hack. The hero is displayed by default, so we hide it and then display it according to the flag settings
+    renderBanner(false, {});
+
+    optimizelyClient.onReady().then(() => {
+        const userCtx = optimizelyClient.createUserContext(USER_ID);
+
+        const bannerDecisision = userCtx.decide(PROMO_BANNER_FLAG);
+
+        renderBanner(
+            bannerDecisision.enabled,
+            bannerDecisision.variables
+        );
+
+    });
+});
+
+/**
  * Instrumnet the hero image with a flag
  */
 docReady().then(() => {
@@ -46,26 +67,6 @@ docReady().then(() => {
     });
 });
 
-/**
- * Instrument the banner with a flag
- */
-docReady().then(() => {
-
-    // Hack. The hero is displayed by default, so we hide it and then display it according to the flag settings
-    renderBanner(false, {});
-
-    optimizelyClient.onReady().then(() => {
-        const userCtx = optimizelyClient.createUserContext(USER_ID);
-
-        const bannerDecisision = userCtx.decide(PROMO_BANNER_FLAG);
-
-        renderBanner(
-            bannerDecisision.enabled,
-            bannerDecisision.variables
-        );
-
-    });
-});
 
 
 
@@ -184,7 +185,7 @@ function docReady() {
                 resolve();
                 clearInt();
             }
-        }, 10);
+        }, 5);
 
         const clearInt = () => {
             clearInterval(interval);
