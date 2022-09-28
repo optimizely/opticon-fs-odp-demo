@@ -1,1 +1,0 @@
-console.log("demo_footer.js loaded");
