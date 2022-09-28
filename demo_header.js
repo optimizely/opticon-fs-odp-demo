@@ -11,6 +11,7 @@ const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
 const optimizelyClient = window.optimizelySdk.createInstance({
     sdkKey: OPTIMIZELY_SDK_KEY
 });
+window.optimizelyClient = optimizelyClient;
 
 
 /**
@@ -29,7 +30,7 @@ docReady().then(() => {
     renderHero(false, {});
 
     optimizelyClient.onReady().then(() => {
-        const userCtx = window.optimizelyClient.createUserContext("user123");
+        const userCtx = optimizelyClient.createUserContext("user123");
 
         const decision = userCtx.decide("hero_offer");
 
