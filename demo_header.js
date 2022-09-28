@@ -138,7 +138,7 @@ function renderBanner(enabled, {
         const marketSel = banner.querySelector(MARKET_WRAPPER_SELECTOR);
 
         // always hide the market selector
-        marketSel.style.display = "none";
+        marketSel.style.visibility = "hidden";
 
         if (enabled) {
             text.innerHTML = banner_text;
