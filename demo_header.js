@@ -30,9 +30,6 @@ odpReady().then(() => {
  */
 docReady().then(() => {
 
-    // Hack. The hero is displayed by default, so we hide it and then display it according to the flag settings
-    renderBanner(false, {});
-
     optimizelyClient.onReady().then(() => {
         const userCtx = optimizelyClient.createUserContext(USER_ID);
 
@@ -47,12 +44,9 @@ docReady().then(() => {
 });
 
 /**
- * Instrumnet the hero image with a flag
+ * Instrument the hero image with a flag
  */
 docReady().then(() => {
-
-    // Hack. The hero is displayed by default, so we hide it and then display it according to the flag settings
-    renderHero(false, {});
 
     optimizelyClient.onReady().then(() => {
         const userCtx = optimizelyClient.createUserContext(USER_ID);
