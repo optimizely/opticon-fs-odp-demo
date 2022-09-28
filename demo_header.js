@@ -66,7 +66,69 @@ docReady().then(() => {
     });
 });
 
+/**
+ * Instrument hero image using a flag
+ */
 
+
+const HERO_CONTAINER_SELECTOR = "#heroBlock-174"
+const HERO_IMAGE_SELECTOR = ".hero-block__image";
+const HERO_H1_SELECTOR = ".hero-block__callout-content h1";
+const HERO_H3_SELECTOR = ".hero-block__callout-content h3";
+const HERO_BUTTON_SELECTOR = ".hero-block__callout-content a";
+
+
+function renderHero(enabled, {
+    image_url = "https://www.burgesspetcare.com/wp-content/uploads/2021/08/Hamster.jpg",
+    h1_text = "Hamsters",
+    h3_text = "Make a difference",
+    button_text = "Learn more about Hamsters",
+    button_url = "https://www.google.com"
+}) {
+
+    waitForElm(HERO_CONTAINER_SELECTOR).then((hero) => {
+
+        if (enabled) {
+            const heroImage = hero.querySelector(HERO_IMAGE_SELECTOR);
+            heroImage.src = image_url;
+
+            const h1 = hero.querySelector(HERO_H1_SELECTOR);
+            h1.innerHTML = h1_text;
+
+            const h3 = hero.querySelector(HERO_H3_SELECTOR);
+            h3.innerHTML = h3_text;
+
+            const button = hero.querySelector(HERO_BUTTON_SELECTOR);
+            button.innerHTML = button_text;
+            button.href = button_url;
+
+            hero.style.display = "block";
+        } else {
+            hero.style.display = "none";
+        }
+
+    });
+
+
+}
+
+
+
+docReady().then(() => {
+
+    // Hack. The banner is displayed by default, so we hide it and then display it according to the flag settings
+    renderHero(false, {});
+
+    optimizelyClient.onReady().then(() => {
+        //const userCtx = window.optimizelyClient.createUserContext("user123");
+
+        //const decision = userCtx.decide("mosey_banner");
+
+        //console.log(decision.variables);
+
+        renderHero(true, {});
+    });
+});
 
 
 
