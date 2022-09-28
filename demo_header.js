@@ -1,4 +1,4 @@
-const VERSION = "0.0.3";
+const VERSION = "0.0.4";
 console.log(`demo_header.js loaded (v${VERSION})`);
 
 
@@ -90,7 +90,7 @@ function renderHero(enabled, {
 
         if (enabled) {
             const heroImage = hero.querySelector(HERO_IMAGE_SELECTOR);
-            heroImage.src = image_url;
+            heroImage.style.backgroundImage = `url(${image_url})`;
 
             const h1 = hero.querySelector(HERO_H1_SELECTOR);
             h1.innerHTML = h1_text;
