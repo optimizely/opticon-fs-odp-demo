@@ -32,12 +32,33 @@ docReady().then(() => {
     optimizelyClient.onReady().then(() => {
         const userCtx = optimizelyClient.createUserContext("user123");
 
-        const decision = userCtx.decide("hero_offer");
+        const heroDecision = userCtx.decide("hero_offer");
 
-        renderHero(decision.enabled, decision.variables);
+        renderHero(
+            heroDecision.enabled,
+            heroDecision.variables
+        );
+
     });
 });
 
+docReady().then(() => {
+
+    // Hack. The hero is displayed by default, so we hide it and then display it according to the flag settings
+    renderBanner(false, {});
+
+    optimizelyClient.onReady().then(() => {
+        const userCtx = optimizelyClient.createUserContext("user123");
+
+        const bannerDecisision = userCtx.decide("mosey_banner");
+
+        renderBanner(
+            bannerDecisision.enabled,
+            bannerDecisision.variables
+        );
+
+    });
+});
 
 
 
@@ -98,7 +119,37 @@ function renderHero(enabled, {
 
     });
 
+}
 
+/**
+ * Instrument the header banner using a Flag
+ */
+function renderBanner(enabled, {
+    banner_text = "Spend $500 dollars and get $50 Off",
+    banner_background_color = "black",
+    banner_text_color = "white",
+}) {
+    const BANNER_SELECTOR = ".top-header";
+    const BANNER_TEXT_SELECTOR = ".top-header__banner-text p";
+    const MARKET_WRAPPER_SELECTOR = ".market-selector__wrapper";
+
+    waitForElm(BANNER_SELECTOR).then((banner) => {
+        const text = banner.querySelector(BANNER_TEXT_SELECTOR);
+        const marketSel = banner.querySelector(MARKET_WRAPPER_SELECTOR);
+
+        // always hide the market selector
+        marketSel.style.display = "none";
+
+        if (enabled) {
+            text.innerHTML = banner_text;
+            text.style.color = banner_text_color;
+            banner.style.backgroundColor = banner_background_color;
+            banner.style.display = "block";
+        } else {
+            banner.style.display = "none";
+        }
+
+    });
 }
 
 
