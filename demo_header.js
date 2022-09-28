@@ -1,4 +1,4 @@
-const VERSION = "0.0.4";
+const VERSION = "0.0.5";
 console.log(`demo_header.js loaded (v${VERSION})`);
 
 
@@ -53,17 +53,17 @@ function renderBanner(enabled, {
 docReady().then(() => {
 
     // Hack. The banner is displayed by default, so we hide it and then display it according to the flag settings
-    renderBanner(false, {});
+    // renderBanner(false, {});
 
-    optimizelyClient.onReady().then(() => {
-        const userCtx = window.optimizelyClient.createUserContext("user123");
+    // optimizelyClient.onReady().then(() => {
+    //     const userCtx = window.optimizelyClient.createUserContext("user123");
 
-        const decision = userCtx.decide("mosey_banner");
+    //     const decision = userCtx.decide("mosey_banner");
 
-        console.log(decision.variables);
+    //     console.log(decision.variables);
 
-        renderBanner(decision.enabled, decision.variables);
-    });
+    //     renderBanner(decision.enabled, decision.variables);
+    // });
 });
 
 /**
@@ -79,11 +79,11 @@ const HERO_BUTTON_SELECTOR = ".hero-block__callout-content a";
 
 
 function renderHero(enabled, {
-    image_url = "https://www.burgesspetcare.com/wp-content/uploads/2021/08/Hamster.jpg",
-    h1_text = "Hamsters",
+    image_url = "/globalassets/_mosey/start/woman1-large.png",
+    h1_text = "Sustainable Clothing",
     h3_text = "Make a difference",
-    button_text = "Learn more about Hamsters",
-    button_url = "https://www.google.com"
+    button_text = " Learn more ",
+    button_url = "/en/fashion/mens/"
 }) {
 
     waitForElm(HERO_CONTAINER_SELECTOR).then((hero) => {
@@ -116,15 +116,15 @@ function renderHero(enabled, {
 
 docReady().then(() => {
 
-    // Hack. The banner is displayed by default, so we hide it and then display it according to the flag settings
+    // Hack. The hero is displayed by default, so we hide it and then display it according to the flag settings
     renderHero(false, {});
 
     optimizelyClient.onReady().then(() => {
-        //const userCtx = window.optimizelyClient.createUserContext("user123");
+        const userCtx = window.optimizelyClient.createUserContext("user123");
 
-        //const decision = userCtx.decide("mosey_banner");
+        const decision = userCtx.decide("hero_offer");
 
-        //console.log(decision.variables);
+        console.log(decision.variables);
 
         renderHero(true, {});
     });
