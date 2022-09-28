@@ -142,7 +142,15 @@ function renderBanner(enabled, {
 
         if (enabled) {
             text.innerHTML = banner_text;
-            text.style.color = banner_text_color;
+
+            Object.assign(
+                text.styles,
+                {
+                    color: banner_text_color,
+                    "margin-top": "7px" // Hack to center the banner text
+                }
+            )
+
             banner.style.backgroundColor = banner_background_color;
             banner.style.display = "block";
         } else {
