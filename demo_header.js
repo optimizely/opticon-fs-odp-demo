@@ -144,7 +144,7 @@ function renderBanner(enabled, {
             text.innerHTML = banner_text;
 
             Object.assign(
-                text.styles,
+                text.style,
                 {
                     color: banner_text_color,
                     "margin-top": "7px" // Hack to center the banner text
