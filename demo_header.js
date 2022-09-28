@@ -112,8 +112,10 @@ function renderHero(enabled, {
             button.innerHTML = button_text;
             button.href = button_url;
 
+            console.log("Rendering hero block");
             hero.style.display = "block";
         } else {
+            console.log("Hiding hero block");
             hero.style.display = "none";
         }
 
@@ -152,8 +154,11 @@ function renderBanner(enabled, {
             )
 
             banner.style.backgroundColor = banner_background_color;
+
+            console.log("Rendering banner block");
             banner.style.display = "block";
         } else {
+            console.log("Hiding banner block");
             banner.style.display = "none";
         }
 
