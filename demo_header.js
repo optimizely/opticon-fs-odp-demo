@@ -1,12 +1,17 @@
-const VERSION = "0.0.10";
+const VERSION = "0.0.11";
 console.log(`demo_header.js loaded (v${VERSION})`);
+
+const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
+const PROMO_HERO_FLAG = "promo_hero";
+const PROMO_BANNER_FLAG = "promo_banner";
+const USER_ID = "user123";
+
 
 
 /**
  *  Initialize the Flags SDK
  */
 
-const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
 
 const optimizelyClient = window.optimizelySdk.createInstance({
     sdkKey: OPTIMIZELY_SDK_KEY
@@ -14,25 +19,24 @@ const optimizelyClient = window.optimizelySdk.createInstance({
 window.optimizelyClient = optimizelyClient;
 
 
-/**
- * Instrument hero image using a flag
- */
 
 odpReady().then(() => {
     console.log("window.zaius is ready");
 });
 
 
-
+/**
+ * Instrumnet the hero image with a flag
+ */
 docReady().then(() => {
 
     // Hack. The hero is displayed by default, so we hide it and then display it according to the flag settings
     renderHero(false, {});
 
     optimizelyClient.onReady().then(() => {
-        const userCtx = optimizelyClient.createUserContext("user123");
+        const userCtx = optimizelyClient.createUserContext(USER_ID);
 
-        const heroDecision = userCtx.decide("hero_offer");
+        const heroDecision = userCtx.decide(PROMO_HERO_FLAG);
 
         renderHero(
             heroDecision.enabled,
@@ -42,15 +46,18 @@ docReady().then(() => {
     });
 });
 
+/**
+ * Instrument the banner with a flag
+ */
 docReady().then(() => {
 
     // Hack. The hero is displayed by default, so we hide it and then display it according to the flag settings
     renderBanner(false, {});
 
     optimizelyClient.onReady().then(() => {
-        const userCtx = optimizelyClient.createUserContext("user123");
+        const userCtx = optimizelyClient.createUserContext(USER_ID);
 
-        const bannerDecisision = userCtx.decide("mosey_banner");
+        const bannerDecisision = userCtx.decide(PROMO_BANNER_FLAG);
 
         renderBanner(
             bannerDecisision.enabled,
