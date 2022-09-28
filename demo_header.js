@@ -1,4 +1,4 @@
-const VERSION = "0.0.8";
+const VERSION = "0.0.9";
 console.log(`demo_header.js loaded (v${VERSION})`);
 
 
