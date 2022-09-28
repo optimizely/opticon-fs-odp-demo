@@ -1,4 +1,4 @@
-const VERSION = "0.0.5";
+const VERSION = "0.0.6";
 console.log(`demo_header.js loaded (v${VERSION})`);
 
 
@@ -124,9 +124,7 @@ docReady().then(() => {
 
         const decision = userCtx.decide("hero_offer");
 
-        console.log(decision.variables);
-
-        renderHero(true, {});
+        renderHero(decision.enabled, decision.variables);
     });
 });
 
