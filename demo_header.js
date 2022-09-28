@@ -1,6 +1,6 @@
 import { renderHero, renderBanner, docReady, odpReady } from "./demo_lib";
 
-const VERSION = "0.0.11";
+const VERSION = "0.0.12";
 console.log(`demo_header.js loaded (v${VERSION})`);
 
 const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
