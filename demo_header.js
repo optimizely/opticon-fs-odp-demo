@@ -28,7 +28,7 @@ odpReady().then(() => {
 /**
  * Instrument the banner with a flag
  */
-docReady().then(() => {
+documentReady().then(() => {
 
     optimizelyClient.onReady().then(() => {
         const userCtx = optimizelyClient.createUserContext(USER_ID);
@@ -46,7 +46,7 @@ docReady().then(() => {
 /**
  * Instrument the hero image with a flag
  */
-docReady().then(() => {
+documentReady().then(() => {
 
     optimizelyClient.onReady().then(() => {
         const userCtx = optimizelyClient.createUserContext(USER_ID);
@@ -98,7 +98,7 @@ function renderHero(enabled, {
     const HERO_H3_SELECTOR = ".hero-block__callout-content h3";
     const HERO_BUTTON_SELECTOR = ".hero-block__callout-content a";
 
-    waitForElm(HERO_CONTAINER_SELECTOR).then((hero) => {
+    elementReady(HERO_CONTAINER_SELECTOR).then((hero) => {
 
         if (enabled) {
             const heroImage = hero.querySelector(HERO_IMAGE_SELECTOR);
@@ -137,7 +137,7 @@ function renderBanner(enabled, {
     const BANNER_TEXT_SELECTOR = ".top-header__banner-text p";
     const MARKET_WRAPPER_SELECTOR = ".market-selector__wrapper";
 
-    waitForElm(BANNER_SELECTOR).then((banner) => {
+    elementReady(BANNER_SELECTOR).then((banner) => {
         const text = banner.querySelector(BANNER_TEXT_SELECTOR);
         const marketSel = banner.querySelector(MARKET_WRAPPER_SELECTOR);
 
@@ -172,7 +172,7 @@ function renderBanner(enabled, {
  * docReady
  * @returns a Promise that resolves when document.body is ready
  */
-function docReady() {
+function documentReady() {
     return new Promise((resolve, reject) => {
         const interval = setInterval(() => {
             if (document.body) {
@@ -210,7 +210,7 @@ function odpReady() {
 
 // Use mutationovbservers to wait for a dom element to be loaded
 // https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
-function waitForElm(selector) {
+function elementReady(selector) {
     return new Promise(resolve => {
         if (document.querySelector(selector)) {
             return resolve(document.querySelector(selector));
