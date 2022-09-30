@@ -66,6 +66,7 @@ odpReady().then(() => {
             const attrs = getLocalFlagsUserAttributes();
 
             const userCtx = window.optimizelyClient.createUserContext(userId, attrs);
+            window.userCtx = userCtx;
 
             const heroDecision = userCtx.decide(PROMO_HERO_FLAG);
 
