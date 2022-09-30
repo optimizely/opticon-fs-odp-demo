@@ -6,32 +6,41 @@ const PROMO_HERO_FLAG = "promo_hero";
 const PROMO_BANNER_FLAG = "promo_banner";
 const USER_ID = "user123";
 
+const HAS_PURCHASED_ATTR = "has_purchased";
 
 
-/**
- *  Initialize the Flags SDK
- */
 
-
-const optimizelyClient = window.optimizelySdk.createInstance({
-    sdkKey: OPTIMIZELY_SDK_KEY
-});
-window.optimizelyClient = optimizelyClient;
 
 
 
 odpReady().then(() => {
     console.log("window.zaius is ready");
+
+    /**
+     * Initialize the Flags SDK
+     * Doing this after odpReady() resolves ensures that the ODP client
+     * is also initialized for any code that depends on both flags and
+     * ODP 
+     */
+    const optimizelyClient = window.optimizelySdk.createInstance({
+        sdkKey: OPTIMIZELY_SDK_KEY
+    });
+    window.optimizelyClient = optimizelyClient;
+    optimizelyClient.onReady(() => {
+        console.log("window.optimizelyCient is ready")
+    })
+
 });
 
 
 
 
-/**
- * Instrument banner offer with a flag
- */
 documentReady().then(() => {
 
+
+    /**
+     * Instrument banner offer with a flag
+     */
     optimizelyClient.onReady().then(() => {
 
         const userCtx = optimizelyClient.createUserContext(USER_ID);
@@ -44,15 +53,12 @@ documentReady().then(() => {
         );
 
     });
-});
 
 
 
-/**
- * Instrument hero offer with a flag
- */
-documentReady().then(() => {
-
+    /**
+     * Instrument hero offer with a flag
+     */
     optimizelyClient.onReady().then(() => {
         const userCtx = optimizelyClient.createUserContext(USER_ID);
 
@@ -64,6 +70,11 @@ documentReady().then(() => {
         );
 
     });
+
+
+
+
+
 });
 
 
@@ -76,13 +87,54 @@ documentReady().then(() => {
 
 
 
+/**
+ * Site hacks and instrumentation
+ */
 
+/**
+ * Instrument the Add to Cart button to update hasPurchased in local storage
+ */
+const ADD_TO_CART_SELECTOR = ".addToCart";
 
+elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
+    addToCart.addEventListener("click", () => {
+        setLocalFlagUserAttributes({ [HAS_PURCHASED_ATTR]: true });
+    })
+});
 
 
 /**
  * Library functions
  */
+
+ATTR_PREFIX = "_ATTR__";
+
+/**
+ * Set one or more local flag user attributes
+ * @param {*} attrs 
+ */
+function setLocalFlagUserAttributes(attrs) {
+    Object.entries(attrs).forEach(([key, val]) => {
+        if (val === null || val === undefined) {
+            localStorage.removeItem(ATTR_PREFIX + key);
+        } else {
+            localStorage.setItem(ATTR_PREFIX + key, val);
+        }
+    });
+}
+
+/**
+ * Retrieve local flag user attributes
+ */
+function getLocalFlagUserAttributes() {
+    const attrs = {};
+
+    Object.entries(localStorage).forEach(([key, val]) => {
+        if (val.startsWith(ATTR_PREFIX)) {
+            attrs[key.replace(ATTR_PREFIX, "")] = val;
+        }
+    });
+}
 
 /**
  * renderHero
