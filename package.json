@@ -5,7 +5,7 @@
   "main": "src/main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-mosey": "npx rollup -c",
+    "build-mosey": "rollup -c",
     "build-fs": "./bin/build-fs.sh",
     "build": "npm run build-fs && npm run build-mosey"
   },
