@@ -25,8 +25,10 @@ odpReady().then(() => {
 });
 
 
+
+
 /**
- * Instrument the banner with a flag
+ * Instrument banner offer with a flag
  */
 documentReady().then(() => {
 
@@ -44,8 +46,10 @@ documentReady().then(() => {
     });
 });
 
+
+
 /**
- * Instrument the hero image with a flag
+ * Instrument hero offer with a flag
  */
 documentReady().then(() => {
 
