@@ -380,9 +380,14 @@ documentReady().then(() => {
     const EMAIL_INPUT_SELECTOR = "#LoginViewModel_Email";
 
     elementReady(LOGIN_BUTTON_SELECTOR).then((loginBtn) => {
-        emailInput = document.querySelector(EMAIL_INPUT_SELECTOR);
 
-        setLocalEmail(emailInput.value);
+        loginBtn.addEventListener("click", () => {
+
+            emailInput = document.querySelector(EMAIL_INPUT_SELECTOR);
+
+            setLocalEmail(emailInput.value);
+
+        });
 
     });
 
