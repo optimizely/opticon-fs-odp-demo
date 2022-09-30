@@ -141,7 +141,7 @@ function getLocalFlagsUserAttributes() {
     const attrs = {};
 
     Object.entries(localStorage).forEach(([key, val]) => {
-        if (val.startsWith(ATTR_PREFIX)) {
+        if (key.startsWith(ATTR_PREFIX)) {
             attrs[key.replace(ATTR_PREFIX, "")] = val;
         }
     });
