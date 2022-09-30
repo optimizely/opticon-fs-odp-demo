@@ -89,6 +89,7 @@ function renderHero(enabled, {
     image_url = "/globalassets/_mosey/start/woman1-large.png",
     h1_text = "Sustainable Clothing",
     h3_text = "Make a difference",
+    text_color = "black",
     button_text = " Learn more ",
     button_url = "/en/fashion/mens/"
 }) {
@@ -107,9 +108,11 @@ function renderHero(enabled, {
 
             const h1 = hero.querySelector(HERO_H1_SELECTOR);
             h1.innerHTML = h1_text;
+            h1.style.color = text_color;
 
             const h3 = hero.querySelector(HERO_H3_SELECTOR);
-            h3.innerHTML = h3_text;
+            h3.innerHTML = h3_text
+            h3.style.color = text_color;;
 
             const button = hero.querySelector(HERO_BUTTON_SELECTOR);
             button.innerHTML = button_text;
