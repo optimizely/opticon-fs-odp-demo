@@ -1,0 +1,22 @@
+{
+  "name": "opticon-fs-odp-demo",
+  "version": "0.1.0",
+  "description": "Opticon 2022 Full Stack & ODP Demo",
+  "main": "src/main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/optimizely/opticon-fs-odp-demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/optimizely/opticon-fs-odp-demo/issues"
+  },
+  "homepage": "https://github.com/optimizely/opticon-fs-odp-demo#readme",
+  "devDependencies": {
+    "rollup": "^2.79.1"
+  }
+}
