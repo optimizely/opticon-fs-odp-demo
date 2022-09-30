@@ -41,7 +41,10 @@ odpReady().then(() => {
          */
         window.optimizelyClient.onReady().then(() => {
 
-            const userCtx = window.optimizelyClient.createUserContext(USER_ID);
+            const userId = zaius.VUID;
+            const attrs = getLocalFlagUserAttributes();
+
+            const userCtx = window.optimizelyClient.createUserContext(userId, attrs);
 
             const bannerDecisision = userCtx.decide(PROMO_BANNER_FLAG);
 
@@ -58,7 +61,11 @@ odpReady().then(() => {
          * Instrument hero offer with a flag
          */
         window.optimizelyClient.onReady().then(() => {
-            const userCtx = window.optimizelyClient.createUserContext(USER_ID);
+
+            const userId = zaius.VUID;
+            const attrs = getLocalFlagUserAttributes();
+
+            const userCtx = window.optimizelyClient.createUserContext(userId, attrs);
 
             const heroDecision = userCtx.decide(PROMO_HERO_FLAG);
 
@@ -135,6 +142,8 @@ function getLocalFlagUserAttributes() {
             attrs[key.replace(ATTR_PREFIX, "")] = val;
         }
     });
+
+    return attrs;
 }
 
 /**
