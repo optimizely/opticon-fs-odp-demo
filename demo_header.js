@@ -2,9 +2,6 @@ const VERSION = "0.0.11";
 console.log(`demo_header.js loaded (v${VERSION})`);
 
 const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
-const PROMO_HERO_FLAG = "promo_hero";
-const PROMO_BANNER_FLAG = "promo_banner";
-const USER_ID = "user123";
 
 
 
@@ -45,7 +42,7 @@ odpReady().then(() => {
 
             const userCtx = window.optimizelyClient.createUserContext(userId, attrs);
 
-            const bannerDecisision = userCtx.decide(PROMO_BANNER_FLAG);
+            const bannerDecisision = userCtx.decide("promo_banner");
 
             renderBanner(
                 bannerDecisision.enabled,
@@ -67,7 +64,7 @@ odpReady().then(() => {
             const userCtx = window.optimizelyClient.createUserContext(userId, attrs);
             window.userCtx = userCtx;
 
-            const heroDecision = userCtx.decide(PROMO_HERO_FLAG);
+            const heroDecision = userCtx.decide("promo_hero");
 
             renderHero(
                 heroDecision.enabled,
