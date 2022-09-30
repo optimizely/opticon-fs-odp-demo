@@ -126,7 +126,7 @@ function getOptimizelyUserId() {
 
     // If a userId isn't found in local storage, generate one
     if (fromStorage === null || fromStorage === undefined) {
-        const rand = Math.floor(Math.random() * 1000);
+        const rand = Math.floor(Math.random() * 10000);
         const newUserId = `fs_user_id_${rand}`;
         localStorage.setItem(USER_ID_KEY, newUserId);
         fromStorage = newUserId;
