@@ -36,10 +36,10 @@ odpReady().then(() => {
         /**
          * Instrument hero offer with a flag
          */
-        window.optimizelyClient.onReady().then(() => {
+        window.optimizelyClient.onReady().then(async () => {
 
             // create a UserContext object
-            const userCtx = getOptimizelyUserContext();
+            const userCtx = await getOptimizelyUserContext();
 
             // generate a flag decision for the hero feature
             const heroDecision = userCtx.decide("promo_hero");
@@ -62,10 +62,10 @@ odpReady().then(() => {
         /**
          * Instrument banner offer with a flag
          */
-        window.optimizelyClient.onReady().then(() => {
+        window.optimizelyClient.onReady().then(async () => {
 
             // create a UserContext object
-            const userCtx = getOptimizelyUserContext();
+            const userCtx = await getOptimizelyUserContext();
 
             // generate a flag decision for the banner feature
             const bannerDecisision = userCtx.decide("promo_banner");
