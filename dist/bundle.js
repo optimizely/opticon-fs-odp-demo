@@ -5,7 +5,7 @@
      * zaiusReady
      * @returns a Promise that resolves when window.zaius is ready
      */
-    function odpReady$1() {
+    function odpReady() {
         return new Promise((resolve, reject) => {
             const interval = setInterval(() => {
                 if (window.zaius) {
@@ -240,7 +240,7 @@
     const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
 
 
-    odpReady$1().then(() => {
+    odpReady().then(() => {
         console.log("window.zaius is ready");
 
         /**
