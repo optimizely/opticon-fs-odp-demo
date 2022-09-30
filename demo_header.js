@@ -127,12 +127,14 @@ async function getOptimizelyUserContext() {
     return userCtx;
 }
 
+// Prefix used for storing user attributes in local storage
+const ATTR_PREFIX = "_ATTR__";
+
 /**
  * Set one or more local flag user attributes
  * @param {*} attrs 
  */
 function setLocalFlagsUserAttributes(attrs) {
-    const ATTR_PREFIX = "_ATTR__";
 
     Object.entries(attrs).forEach(([key, val]) => {
         if (val === null || val === undefined) {
