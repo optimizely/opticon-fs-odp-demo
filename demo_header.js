@@ -126,12 +126,9 @@ function setLocalFlagsUserAttributes(attrs) {
         if (val === null || val === undefined) {
             localStorage.removeItem(ATTR_PREFIX + key);
         } else {
-            localStorage.setItem(ATTR_PREFIX + key, val);
+            localStorage.setItem(ATTR_PREFIX + key, JSON.stringify(val));
         }
     });
-
-    console.log("set attrs");
-    console.log(attrs);
 }
 
 /**
@@ -142,12 +139,10 @@ function getLocalFlagsUserAttributes() {
 
     Object.entries(localStorage).forEach(([key, val]) => {
         if (key.startsWith(ATTR_PREFIX)) {
-            attrs[key.replace(ATTR_PREFIX, "")] = val;
+            attrs[key.replace(ATTR_PREFIX, "")] = JSON.parse(val);
         }
     });
 
-    console.log("Got attrs");
-    console.log(attrs);
     return attrs;
 }
 
