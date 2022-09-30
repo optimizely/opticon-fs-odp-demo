@@ -129,6 +129,9 @@ function setLocalFlagsUserAttributes(attrs) {
             localStorage.setItem(ATTR_PREFIX + key, JSON.stringify(val));
         }
     });
+
+    console.log("Set local flags attrs");
+    console.log(attrs);
 }
 
 /**
@@ -142,6 +145,9 @@ function getLocalFlagsUserAttributes() {
             attrs[key.replace(ATTR_PREFIX, "")] = JSON.parse(val);
         }
     });
+
+    console.log("Got local flags attrs");
+    console.log(attrs);
 
     return attrs;
 }
