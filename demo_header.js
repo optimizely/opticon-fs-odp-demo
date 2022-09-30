@@ -30,50 +30,50 @@ odpReady().then(() => {
         console.log("window.optimizelyCient is ready")
     })
 
-});
+
+
+
+    documentReady().then(() => {
+
+
+        /**
+         * Instrument banner offer with a flag
+         */
+        window.optimizelyClient.onReady().then(() => {
+
+            const userCtx = window.optimizelyClient.createUserContext(USER_ID);
+
+            const bannerDecisision = userCtx.decide(PROMO_BANNER_FLAG);
+
+            renderBanner(
+                bannerDecisision.enabled,
+                bannerDecisision.variables
+            );
+
+        });
+
+
+
+        /**
+         * Instrument hero offer with a flag
+         */
+        window.optimizelyClient.onReady().then(() => {
+            const userCtx = window.optimizelyClient.createUserContext(USER_ID);
+
+            const heroDecision = userCtx.decide(PROMO_HERO_FLAG);
+
+            renderHero(
+                heroDecision.enabled,
+                heroDecision.variables
+            );
+
+        });
 
 
 
 
-documentReady().then(() => {
-
-
-    /**
-     * Instrument banner offer with a flag
-     */
-    window.optimizelyClient.onReady().then(() => {
-
-        const userCtx = window.optimizelyClient.createUserContext(USER_ID);
-
-        const bannerDecisision = userCtx.decide(PROMO_BANNER_FLAG);
-
-        renderBanner(
-            bannerDecisision.enabled,
-            bannerDecisision.variables
-        );
 
     });
-
-
-
-    /**
-     * Instrument hero offer with a flag
-     */
-    window.optimizelyClient.onReady().then(() => {
-        const userCtx = window.optimizelyClient.createUserContext(USER_ID);
-
-        const heroDecision = userCtx.decide(PROMO_HERO_FLAG);
-
-        renderHero(
-            heroDecision.enabled,
-            heroDecision.variables
-        );
-
-    });
-
-
-
-
 
 });
 
