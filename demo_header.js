@@ -121,6 +121,11 @@ async function getOptimizelyUserContext() {
     // create a user context object
     const userCtx = window.optimizelyClient.createUserContext(userId, attrs);
 
+    // Send ODP our fs_user_id identifier so that it can stitch identity
+    window.odpClient.customer({
+        fs_user_id: userId
+    });
+
     // Fetch qualified segments from ODP
     await userCtx.fetchQualifiedSegments();
 
