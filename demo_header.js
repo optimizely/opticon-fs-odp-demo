@@ -32,18 +32,46 @@ odpReady().then(() => {
     documentReady().then(() => {
 
 
+
+        /**
+         * Instrument hero offer with a flag
+         */
+        window.optimizelyClient.onReady().then(() => {
+
+            // create a UserContext object
+            const userCtx = getOptimizelyUserContext();
+
+            // generate a flag decision for the hero feature
+            const heroDecision = userCtx.decide("promo_hero");
+
+            // render the hero element using the configuration specified
+            // in the flag decision
+            renderHero(
+                heroDecision.enabled,
+                heroDecision.variables
+            );
+
+            // Set a local user attribute if the hero element was rendered
+            if (heroDecision.enabled) {
+                setLocalFlagsUserAttributes({ "has_seen_offer_local": true });
+            }
+
+        });
+
+
         /**
          * Instrument banner offer with a flag
          */
         window.optimizelyClient.onReady().then(() => {
 
-            const userId = zaius.VUID;
-            const attrs = getLocalFlagsUserAttributes();
+            // create a UserContext object
+            const userCtx = getOptimizelyUserContext();
 
-            const userCtx = window.optimizelyClient.createUserContext(userId, attrs);
-
+            // generate a flag decision for the banner feature
             const bannerDecisision = userCtx.decide("promo_banner");
 
+            // render the banner element using the configuration specified
+            // in the flag decision
             renderBanner(
                 bannerDecisision.enabled,
                 bannerDecisision.variables
@@ -53,29 +81,6 @@ odpReady().then(() => {
 
 
 
-        /**
-         * Instrument hero offer with a flag
-         */
-        window.optimizelyClient.onReady().then(() => {
-
-            const userId = zaius.VUID;
-            const attrs = getLocalFlagsUserAttributes();
-
-            const userCtx = window.optimizelyClient.createUserContext(userId, attrs);
-            window.userCtx = userCtx;
-
-            const heroDecision = userCtx.decide("promo_hero");
-
-            renderHero(
-                heroDecision.enabled,
-                heroDecision.variables
-            );
-
-            if (heroDecision.enabled) {
-                setLocalFlagsUserAttributes({ "has_seen_offer_local": true });
-            }
-
-        });
 
 
 
@@ -95,34 +100,40 @@ odpReady().then(() => {
 
 
 
-/**
- * Site hacks and instrumentation
- */
-
-documentReady().then(() => {
-    /**
-     * Instrument the Add to Cart button to update hasPurchased in local storage
-     */
-    const ADD_TO_CART_SELECTOR = ".addToCart";
-
-    elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
-        addToCart.addEventListener("click", () => {
-            setLocalFlagsUserAttributes({ "has_purchased_local": true });
-        })
-    });
-});
 
 /**
  * Library functions
  */
 
-const ATTR_PREFIX = "_ATTR__";
+/**
+ * Returns an Optimizely user context object
+ */
+async function getOptimizelyUserContext() {
+
+    await odpReady();
+
+    // use the ODP vuid as our flags userId
+    const userId = window.odpClient.VUID;
+
+    // retrieve locally-stored user attributes
+    const attrs = getLocalFlagsUserAttributes();
+
+    // create a user context object
+    const userCtx = window.optimizelyClient.createUserContext(userId, attrs);
+
+    // Fetch qualified segments from ODP
+    await userCtx.fetchQualifiedSegments();
+
+    return userCtx;
+}
 
 /**
  * Set one or more local flag user attributes
  * @param {*} attrs 
  */
 function setLocalFlagsUserAttributes(attrs) {
+    const ATTR_PREFIX = "_ATTR__";
+
     Object.entries(attrs).forEach(([key, val]) => {
         if (val === null || val === undefined) {
             localStorage.removeItem(ATTR_PREFIX + key);
@@ -258,6 +269,7 @@ function odpReady() {
     return new Promise((resolve, reject) => {
         const interval = setInterval(() => {
             if (window.zaius) {
+                window.odpClient = window.zaius;
                 resolve();
                 clearInt();
             }
@@ -323,3 +335,21 @@ function getParam(param) {
     const params = new URLSearchParams(window.location.search);
     return params.get(param) || null;
 }
+
+
+/**
+ * Site hacks and instrumentation
+ */
+
+documentReady().then(() => {
+    /**
+     * Instrument the Add to Cart button to update hasPurchased in local storage
+     */
+    const ADD_TO_CART_SELECTOR = ".addToCart";
+
+    elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
+        addToCart.addEventListener("click", () => {
+            setLocalFlagsUserAttributes({ "has_purchased_local": true });
+        })
+    });
+});
