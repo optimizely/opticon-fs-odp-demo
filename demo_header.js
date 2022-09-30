@@ -31,6 +31,7 @@ odpReady().then(() => {
 documentReady().then(() => {
 
     optimizelyClient.onReady().then(() => {
+
         const userCtx = optimizelyClient.createUserContext(USER_ID);
 
         const bannerDecisision = userCtx.decide(PROMO_BANNER_FLAG);
@@ -133,36 +134,41 @@ function renderBanner(enabled, {
     banner_background_color = "black",
     banner_text_color = "white",
 }) {
+    const PRODUCT_DETAIL_SELECTOR = ".product-detail";
     const BANNER_SELECTOR = ".top-header";
     const BANNER_TEXT_SELECTOR = ".top-header__banner-text p";
     const MARKET_WRAPPER_SELECTOR = ".market-selector__wrapper";
 
-    elementReady(BANNER_SELECTOR).then((banner) => {
-        const text = banner.querySelector(BANNER_TEXT_SELECTOR);
-        const marketSel = banner.querySelector(MARKET_WRAPPER_SELECTOR);
+    elementReady(PRODUCT_DETAIL_SELECTOR).then(() => {
 
-        // always hide the market selector
-        marketSel.style.visibility = "hidden";
+        elementReady(BANNER_SELECTOR).then((banner) => {
+            const text = banner.querySelector(BANNER_TEXT_SELECTOR);
+            const marketSel = banner.querySelector(MARKET_WRAPPER_SELECTOR);
 
-        if (enabled) {
-            text.innerHTML = banner_text;
+            // always hide the market selector
+            marketSel.style.visibility = "hidden";
 
-            Object.assign(
-                text.style,
-                {
-                    color: banner_text_color,
-                    "margin-top": "7px" // Hack to center the banner text
-                }
-            )
+            if (enabled) {
+                text.innerHTML = banner_text;
 
-            banner.style.backgroundColor = banner_background_color;
+                Object.assign(
+                    text.style,
+                    {
+                        color: banner_text_color,
+                        "margin-top": "7px" // Hack to center the banner text
+                    }
+                )
 
-            console.log("Rendering banner block");
-            banner.style.display = "block";
-        } else {
-            console.log("Hiding banner block");
-            banner.style.display = "none";
-        }
+                banner.style.backgroundColor = banner_background_color;
+
+                console.log("Rendering banner block");
+                banner.style.display = "block";
+            } else {
+                console.log("Hiding banner block");
+                banner.style.display = "none";
+            }
+
+        });
 
     });
 }
