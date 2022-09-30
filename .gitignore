@@ -89,7 +89,8 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+# Committing dist so that Mosey can grab it
+# dist
 
 # Gatsby files
 .cache/
