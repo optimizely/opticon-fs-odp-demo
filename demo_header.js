@@ -115,7 +115,7 @@ documentReady().then(() => {
  * Library functions
  */
 
-ATTR_PREFIX = "_ATTR__";
+const ATTR_PREFIX = "_ATTR__";
 
 /**
  * Set one or more local flag user attributes
