@@ -167,6 +167,24 @@ function getLocalFlagsUserAttributes() {
 }
 
 /**
+ * Store the user's email in local storage
+ * @param {string} email 
+ */
+function setLocalEmail(email) {
+    localStorage.setItem("email", email);
+}
+
+/**
+ * Retrieves the user's email address from local storage
+ * @returns {string} the user's email address
+ */
+function getLocalEmail() {
+    const email = localStorage.getItem("email");
+
+    return email
+}
+
+/**
  * renderHero
  * @param {boolean} enabled     true if the hero element should be displayed 
  * @param {*} param1            a set of variables that control the appearance of the hero offer 
@@ -352,6 +370,21 @@ documentReady().then(() => {
     elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
         addToCart.addEventListener("click", () => {
             setLocalFlagsUserAttributes({ "has_purchased_local": true });
+            window.odpClient.customer({}, {
+                "has_purchased": true
+            });
         })
     });
+
+    const LOGIN_BUTTON_SELECTOR = ".jsUsersSigninBtn";
+    const EMAIL_INPUT_SELECTOR = "#LoginViewModel_Email";
+
+    elementReady(LOGIN_BUTTON_SELECTOR).then((loginBtn) => {
+        emailInput = document.querySelector(EMAIL_INPUT_SELECTOR);
+
+        setLocalEmail(emailInput.value);
+
+    });
+
+
 });
