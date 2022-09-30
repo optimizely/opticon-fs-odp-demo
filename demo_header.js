@@ -51,9 +51,19 @@ odpReady().then(() => {
                 heroDecision.variables
             );
 
-            // Set a local user attribute if the hero element was rendered
+            // If the hero offer flag was enabled, save that state so that
+            // dependent flags will be decided correctly
             if (heroDecision.enabled) {
-                setLocalFlagsUserAttributes({ "has_seen_offer_local": true });
+
+                // Set a user attribute in local storage
+                setLocalFlagsUserAttributes({
+                    has_seen_offer_local: true
+                });
+
+                // Set an ODP customer attribute
+                window.odpClient.customer({}, {
+                    has_seen_offer: true
+                });
             }
 
         });
@@ -106,14 +116,34 @@ odpReady().then(() => {
  */
 
 /**
+ * Generates or retrieves an Optimizely Full Stack userId value
+ * @returns {string} a locally-stored value for fs_user_id
+ */
+function getOptimizelyUserId() {
+    const USER_ID_KEY = "fs_user_id"
+
+    var fromStorage = localStorage.getItem(USER_ID_KEY);
+
+    // If a userId isn't found in local storage, generate one
+    if (fromStorage === null || fromStorage === undefined) {
+        const rand = Math.floor(Math.random() * 1000);
+        const newUserId = `fs_user_id_${rand}`;
+        localStorage.setItem(USER_ID_KEY, newUserId);
+        fromStorage = newUserId;
+    }
+
+    return fromStorage;
+}
+
+/**
  * Returns an Optimizely user context object
  */
 async function getOptimizelyUserContext() {
 
     await odpReady();
 
-    // use the ODP vuid as our flags userId
-    const userId = window.odpClient.VUID;
+    // generate a userId or retrieve it from local storage
+    const userId = getOptimizelyUserId();
 
     // retrieve locally-stored user attributes
     const attrs = getLocalFlagsUserAttributes();
