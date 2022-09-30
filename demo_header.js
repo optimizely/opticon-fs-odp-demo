@@ -6,7 +6,6 @@ const PROMO_HERO_FLAG = "promo_hero";
 const PROMO_BANNER_FLAG = "promo_banner";
 const USER_ID = "user123";
 
-const HAS_PURCHASED_ATTR = "has_purchased";
 
 
 
@@ -104,6 +103,7 @@ documentReady().then(() => {
      * Instrument the Add to Cart button to update hasPurchased in local storage
      */
     const ADD_TO_CART_SELECTOR = ".addToCart";
+    const HAS_PURCHASED_ATTR = "has_purchased_local";
 
     elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
         addToCart.addEventListener("click", () => {
