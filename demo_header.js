@@ -169,25 +169,6 @@ function renderBanner(enabled, {
 
 
 /**
- * docReady
- * @returns a Promise that resolves when document.body is ready
- */
-function documentReady() {
-    return new Promise((resolve, reject) => {
-        const interval = setInterval(() => {
-            if (document.body) {
-                resolve();
-                clearInt();
-            }
-        }, 5);
-
-        const clearInt = () => {
-            clearInterval(interval);
-        }
-    });
-}
-
-/**
  * zaiusReady
  * @returns a Promise that resolves when window.zaius is ready
  */
@@ -229,6 +210,27 @@ function elementReady(selector) {
         });
     });
 }
+
+
+/**
+ * documentReady
+ * @returns a Promise that resolves when document.body is ready
+ */
+function documentReady() {
+    return new Promise((resolve, reject) => {
+        const interval = setInterval(() => {
+            if (document.body) {
+                resolve();
+                clearInt();
+            }
+        }, 5);
+
+        const clearInt = () => {
+            clearInterval(interval);
+        }
+    });
+}
+
 
 /**
  * getParam
