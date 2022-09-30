@@ -74,6 +74,10 @@ odpReady().then(() => {
                 heroDecision.variables
             );
 
+            if (heroDecision.enabled) {
+                setLocalFlagsUserAttributes({ "has_seen_offer_local": true });
+            }
+
         });
 
 
@@ -103,11 +107,10 @@ documentReady().then(() => {
      * Instrument the Add to Cart button to update hasPurchased in local storage
      */
     const ADD_TO_CART_SELECTOR = ".addToCart";
-    const HAS_PURCHASED_ATTR = "has_purchased_local";
 
     elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
         addToCart.addEventListener("click", () => {
-            setLocalFlagsUserAttributes({ [HAS_PURCHASED_ATTR]: true });
+            setLocalFlagsUserAttributes({ "has_purchased_local": true });
         })
     });
 });
