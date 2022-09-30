@@ -41,9 +41,9 @@ documentReady().then(() => {
     /**
      * Instrument banner offer with a flag
      */
-    optimizelyClient.onReady().then(() => {
+    window.optimizelyClient.onReady().then(() => {
 
-        const userCtx = optimizelyClient.createUserContext(USER_ID);
+        const userCtx = window.optimizelyClient.createUserContext(USER_ID);
 
         const bannerDecisision = userCtx.decide(PROMO_BANNER_FLAG);
 
@@ -59,8 +59,8 @@ documentReady().then(() => {
     /**
      * Instrument hero offer with a flag
      */
-    optimizelyClient.onReady().then(() => {
-        const userCtx = optimizelyClient.createUserContext(USER_ID);
+    window.optimizelyClient.onReady().then(() => {
+        const userCtx = window.optimizelyClient.createUserContext(USER_ID);
 
         const heroDecision = userCtx.decide(PROMO_HERO_FLAG);
 
@@ -91,17 +91,18 @@ documentReady().then(() => {
  * Site hacks and instrumentation
  */
 
-/**
- * Instrument the Add to Cart button to update hasPurchased in local storage
- */
-const ADD_TO_CART_SELECTOR = ".addToCart";
+documentReady().then(() => {
+    /**
+     * Instrument the Add to Cart button to update hasPurchased in local storage
+     */
+    const ADD_TO_CART_SELECTOR = ".addToCart";
 
-elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
-    addToCart.addEventListener("click", () => {
-        setLocalFlagUserAttributes({ [HAS_PURCHASED_ATTR]: true });
-    })
+    elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
+        addToCart.addEventListener("click", () => {
+            setLocalFlagUserAttributes({ [HAS_PURCHASED_ATTR]: true });
+        })
+    });
 });
-
 
 /**
  * Library functions
