@@ -42,7 +42,7 @@ odpReady().then(() => {
         window.optimizelyClient.onReady().then(() => {
 
             const userId = zaius.VUID;
-            const attrs = getLocalFlagUserAttributes();
+            const attrs = getLocalFlagsUserAttributes();
 
             const userCtx = window.optimizelyClient.createUserContext(userId, attrs);
 
@@ -63,7 +63,7 @@ odpReady().then(() => {
         window.optimizelyClient.onReady().then(() => {
 
             const userId = zaius.VUID;
-            const attrs = getLocalFlagUserAttributes();
+            const attrs = getLocalFlagsUserAttributes();
 
             const userCtx = window.optimizelyClient.createUserContext(userId, attrs);
 
@@ -106,7 +106,7 @@ documentReady().then(() => {
 
     elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
         addToCart.addEventListener("click", () => {
-            setLocalFlagUserAttributes({ [HAS_PURCHASED_ATTR]: true });
+            setLocalFlagsUserAttributes({ [HAS_PURCHASED_ATTR]: true });
         })
     });
 });
@@ -121,7 +121,7 @@ const ATTR_PREFIX = "_ATTR__";
  * Set one or more local flag user attributes
  * @param {*} attrs 
  */
-function setLocalFlagUserAttributes(attrs) {
+function setLocalFlagsUserAttributes(attrs) {
     Object.entries(attrs).forEach(([key, val]) => {
         if (val === null || val === undefined) {
             localStorage.removeItem(ATTR_PREFIX + key);
@@ -129,12 +129,15 @@ function setLocalFlagUserAttributes(attrs) {
             localStorage.setItem(ATTR_PREFIX + key, val);
         }
     });
+
+    console.log("set attrs");
+    console.log(attrs);
 }
 
 /**
  * Retrieve local flag user attributes
  */
-function getLocalFlagUserAttributes() {
+function getLocalFlagsUserAttributes() {
     const attrs = {};
 
     Object.entries(localStorage).forEach(([key, val]) => {
@@ -143,6 +146,8 @@ function getLocalFlagUserAttributes() {
         }
     });
 
+    console.log("Got attrs");
+    console.log(attrs);
     return attrs;
 }
 
