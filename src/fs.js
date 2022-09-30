@@ -1,4 +1,5 @@
 import { odpReady } from "./odp";
+import { getLocalFlagsUserAttributes } from "./lib";
 
 /**
  * Generates or retrieves an Optimizely Full Stack userId value
