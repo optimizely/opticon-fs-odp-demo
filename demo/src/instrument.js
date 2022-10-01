@@ -1,7 +1,3 @@
-/**
- * Site hacks and instrumentation
- */
-
 import { documentReady, elementReady, setLocalFlagsUserAttributes } from './lib';
 
 /**

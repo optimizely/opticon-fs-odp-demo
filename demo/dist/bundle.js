@@ -113,6 +113,26 @@
     }
 
     /**
+     * Instrument the Add to Cart button to update hasPurchased in local storage
+     */
+    function instrumentAddToCart() {
+        documentReady().then(() => {
+            const ADD_TO_CART_SELECTOR = ".addToCart";
+            // Wait for the Add to Cart button to be added to the DOM
+            elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
+                // When the button is clicked, add an attribute to the local storage, and set an
+                // ODP customer attribute
+                addToCart.addEventListener("click", () => {
+                    setLocalFlagsUserAttributes({ "has_purchased_local": true });
+                    window.odpClient.customer({}, {
+                        "has_purchased": true
+                    });
+                });
+            });
+        });
+    }
+
+    /**
      * Generates or retrieves an Optimizely Full Stack userId value
      * @returns {string} a locally-stored value for fs_user_id
      */
@@ -217,25 +237,43 @@
     }
 
     /**
-     * Site hacks and instrumentation
+     * Render the "Hero Offer" component according to to the promo_hero flag
      */
-    /**
-     * Instrument the Add to Cart button to update hasPurchased in local storage
-     */
-    function instrumentAddToCart() {
-        documentReady().then(() => {
-            const ADD_TO_CART_SELECTOR = ".addToCart";
-            // Wait for the Add to Cart button to be added to the DOM
-            elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
-                // When the button is clicked, add an attribute to the local storage, and set an
-                // ODP customer attribute
-                addToCart.addEventListener("click", () => {
-                    setLocalFlagsUserAttributes({ "has_purchased_local": true });
-                    window.odpClient.customer({}, {
-                        "has_purchased": true
-                    });
+    function decideAndRenderHeroPromo() {
+        window.optimizelyClient.onReady().then(async () => {
+            // create a UserContext object
+            const userCtx = await getOptimizelyUserContext();
+            // generate a flag decision for the hero feature
+            const heroDecision = userCtx.decide("promo_hero");
+            // render the hero element using the configuration specified
+            // in the flag decision
+            renderHero(heroDecision.enabled, heroDecision.variables);
+            // If the hero offer flag was enabled, save that state so that
+            // dependent flags will be decided correctly
+            if (heroDecision.enabled) {
+                // Set a user attribute in local storage
+                setLocalFlagsUserAttributes({
+                    has_seen_offer_local: true
                 });
-            });
+                // Set an ODP customer attribute
+                window.odpClient.customer({}, {
+                    has_seen_offer: true
+                });
+            }
+        });
+    }
+    /**
+     * Render the "Hero Banner" component according to the promo_banner flag
+     */
+    function decideAndRenderBannerPromo() {
+        window.optimizelyClient.onReady().then(async () => {
+            // create a UserContext object
+            const userCtx = await getOptimizelyUserContext();
+            // generate a flag decision for the banner feature
+            const bannerDecisision = userCtx.decide("promo_banner");
+            // render the banner element using the configuration specified
+            // in the flag decision
+            renderBanner(bannerDecisision.enabled, bannerDecisision.variables);
         });
     }
 
@@ -317,47 +355,14 @@
             sdkKey: OPTIMIZELY_SDK_KEY
         });
         window.optimizelyClient = optimizelyClient;
+        // Add fs2odp notification listeners
+        // These will forward all Full Stack decision and track events to ODP
         addNotficationListeners(optimizelyClient, window.odpClient);
-        optimizelyClient.onReady(() => {
-            console.log("window.optimizelyCient is ready");
-        });
         documentReady().then(() => {
-            /**
-             * Instrument hero offer with a flag
-             */
-            window.optimizelyClient.onReady().then(async () => {
-                // create a UserContext object
-                const userCtx = await getOptimizelyUserContext();
-                // generate a flag decision for the hero feature
-                const heroDecision = userCtx.decide("promo_hero");
-                // render the hero element using the configuration specified
-                // in the flag decision
-                renderHero(heroDecision.enabled, heroDecision.variables);
-                // If the hero offer flag was enabled, save that state so that
-                // dependent flags will be decided correctly
-                if (heroDecision.enabled) {
-                    // Set a user attribute in local storage
-                    setLocalFlagsUserAttributes({
-                        has_seen_offer_local: true
-                    });
-                    // Set an ODP customer attribute
-                    window.odpClient.customer({}, {
-                        has_seen_offer: true
-                    });
-                }
-            });
-            /**
-             * Instrument banner offer with a flag
-             */
-            window.optimizelyClient.onReady().then(async () => {
-                // create a UserContext object
-                const userCtx = await getOptimizelyUserContext();
-                // generate a flag decision for the banner feature
-                const bannerDecisision = userCtx.decide("promo_banner");
-                // render the banner element using the configuration specified
-                // in the flag decision
-                renderBanner(bannerDecisision.enabled, bannerDecisision.variables);
-            });
+            // Decide and render the Hero promo according to the corresponding flag
+            decideAndRenderHeroPromo();
+            // Decide and render the Banner promo according to the corresponding flag
+            decideAndRenderBannerPromo();
         });
     });
 
