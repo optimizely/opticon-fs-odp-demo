@@ -13,5 +13,5 @@ export default {
             "@optimizely/optimizely-sdk": "optimizelySdk"
         }
     },
-    plugins: [nodeResolve(), commonjs(), nodePolyfills()]
+    // plugins: [nodeResolve(), commonjs(), nodePolyfills()]
 };

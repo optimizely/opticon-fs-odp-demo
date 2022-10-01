@@ -18,6 +18,9 @@ OPTIMIZELY_MODULES_DIR="$ROOT_DIR/../optimizely"
 REPO_DIR="$OPTIMIZELY_MODULES_DIR/javascript-sdk"
 PACKAGE_DIR="$REPO_DIR/packages/optimizely-sdk"
 
+OUTPUT_FILE="$PACKAGE_DIR/dist/optimizely.browser.umd.min.js"
+MAP_FILE="$PACKAGE_DIR/dist/optimizely.browser.umd.min.js.map"
+
 # Clone the repository
 if [ ! -d $REPO_DIR ]; then
 echo "Cloning github.com/$REPO#$BRANCH into $REPO_DIR"
@@ -29,3 +32,9 @@ fi
 
 echo "Running npm install in $PACKAGE_DIR"
 cd $PACKAGE_DIR; npm install
+
+cp $OUTPUT_FILE $DIST_DIR
+echo "Copied $OUTPUT_FILE to $DIST_DIR"
+
+cp $MAP_FILE $DIST_DIR
+echo "Copied $MAP_FILE to $DIST_DIR"

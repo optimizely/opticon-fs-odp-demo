@@ -5,9 +5,9 @@
   "main": "src/main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-mosey": "tsc && rollup -c",
+    "build-bundle": "tsc && rollup -c",
     "build-fullstack": "./bin/build-fullstack.sh",
-    "build": "npm run build-fullstack && npm install && npm run build-mosey",
+    "build": "npm run build-bundle && npm run build-fullstack",
     "clean": "rm -rf node_modules ../optimizely"
   },
   "repository": {
@@ -26,8 +26,5 @@
     "rollup": "^2.79.1",
     "rollup-plugin-polyfill-node": "^0.10.2",
     "typescript": "^4.8.4"
-  },
-  "dependencies": {
-    "@optimizely/optimizely-sdk": "file:../optimizely/javascript-sdk/packages/optimizely-sdk/dist/optimizely-sdk"
   }
 }
