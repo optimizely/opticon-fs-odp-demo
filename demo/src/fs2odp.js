@@ -1,5 +1,8 @@
 import { enums } from "@optimizely/optimizely-sdk"
 
+// ODP event type for flag events
+export const ODP_EVENT_TYPE = "optimizely_full_stack";
+
 /**
  * Transforms a `DecisionListenerPayload` into a `DecisionOdpPayload`
  * @param d - A `DecisionListenerPayload`
