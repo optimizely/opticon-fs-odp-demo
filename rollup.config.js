@@ -1,5 +1,7 @@
+// rollup.config.js
+
 export default {
-    input: 'src/main.js',
+    input: './out-tsc/src/main.js',
     output: {
         file: 'dist/bundle.js',
         format: 'iife'
