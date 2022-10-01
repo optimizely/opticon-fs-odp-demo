@@ -227,13 +227,13 @@
         return {
             action: "decision",
             fs_user_id: d.userId,
-            fs_attributes: serialize(d.attributes),
-            fs_flag_key: d.decisionInfo.flagKey,
-            fs_enabled: d.decisionInfo.enabled,
-            fs_variation_key: d.decisionInfo.variationKey || "",
-            fs_rule_key: d.decisionInfo.ruleKey || "",
-            fs_variables: serialize(d.decisionInfo.variables),
-            fs_reasons: serialize(d.decisionInfo.reasons),
+            flags_attributes: serialize(d.attributes),
+            flags_flag_key: d.decisionInfo.flagKey,
+            flags_enabled: d.decisionInfo.enabled,
+            flags_variation_key: d.decisionInfo.variationKey || "",
+            flags_rule_key: d.decisionInfo.ruleKey || "",
+            flags_variables: serialize(d.decisionInfo.variables),
+            flags_reasons: serialize(d.decisionInfo.reasons),
         };
     }
     /**
@@ -245,8 +245,8 @@
         return {
             action: "track_event",
             fs_user_id: e.userId,
-            fs_attributes: serialize(e.attributes),
-            fs_event_key: e.eventKey
+            flags_attributes: serialize(e.attributes),
+            flags_event_key: e.eventKey
         };
     }
     /**
