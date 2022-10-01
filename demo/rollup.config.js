@@ -8,7 +8,10 @@ export default {
     input: './out-tsc/src/main.js',
     output: {
         file: 'dist/bundle.js',
-        format: 'iife'
+        format: 'iife',
+        globals: {
+            "@optimizely/optimizely-sdk": "optimizelySdk"
+        }
     },
     plugins: [nodeResolve(), commonjs(), nodePolyfills()]
 };

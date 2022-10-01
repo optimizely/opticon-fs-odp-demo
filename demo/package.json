@@ -28,6 +28,6 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@optimizely/optimizely-sdk": "file:../optimizely/javascript-sdk/packages/optimizely-sdk"
+    "@optimizely/optimizely-sdk": "file:../optimizely/javascript-sdk/packages/optimizely-sdk/dist/optimizely-sdk"
   }
 }
