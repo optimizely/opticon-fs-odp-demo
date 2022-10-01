@@ -261,7 +261,7 @@
             odpClient.event(ODP_EVENT_TYPE, payload);
         });
         // Send an ODP event whenever a Full Stack event is tracked
-        client.notificationCenter.addNotificationListener(optimizely.enums.NOTIFICATION_TYPES.TRACK, (e) => {
+        optimizelyClient.notificationCenter.addNotificationListener(optimizely.enums.NOTIFICATION_TYPES.TRACK, (e) => {
             const payload = createTrackOdpPayload(e);
             console.log("Sending ODP track event");
             console.log(payload);
