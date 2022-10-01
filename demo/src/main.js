@@ -24,9 +24,6 @@ odpReady().then(() => {
         console.log("window.optimizelyCient is ready")
     })
 
-
-
-
     documentReady().then(() => {
 
 
@@ -86,13 +83,6 @@ odpReady().then(() => {
             );
 
         });
-
-
-
-
-
-
-
 
     });
 

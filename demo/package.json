@@ -6,8 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-mosey": "tsc && rollup -c",
-    "build-fs": "./bin/build-fs.sh",
-    "build": "npm run build-fs && npm run build-mosey"
+    "build-fullstack": "./bin/build-fullstack.sh",
+    "build": "npm run build-fullstack && npm run build-mosey",
+    "clean": "rm -rf node_modules ../optimizely"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,6 @@
     "typescript": "^4.8.4"
   },
   "dependencies": {
-    "@optimizely/optimizely-sdk": "file:../javascript-sdk/packages/optimizely-sdk"
+    "@optimizely/optimizely-sdk": "file:../optimizely/javascript-sdk/packages/optimizely-sdk"
   }
 }
