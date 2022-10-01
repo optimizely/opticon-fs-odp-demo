@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-mosey": "tsc && rollup -c",
     "build-fullstack": "./bin/build-fullstack.sh",
-    "build": "npm run build-fullstack && npm run build-mosey",
+    "build": "npm run build-fullstack && npm install && npm run build-mosey",
     "clean": "rm -rf node_modules ../optimizely"
   },
   "repository": {
