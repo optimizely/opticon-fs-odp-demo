@@ -2,7 +2,7 @@
  * Site hacks and instrumentation
  */
 
-import { documentReady } from './lib';
+import { documentReady, elementReady } from './lib';
 
 /**
  * Instrument the Add to Cart button to update hasPurchased in local storage

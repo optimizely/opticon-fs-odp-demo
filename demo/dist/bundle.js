@@ -77,7 +77,7 @@
     }
     // Use mutationovbservers to wait for a dom element to be loaded
     // https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
-    function elementReady$1(selector) {
+    function elementReady(selector) {
         return new Promise(resolve => {
             if (document.querySelector(selector)) {
                 return resolve(document.querySelector(selector));
@@ -162,7 +162,7 @@
         const HERO_H1_SELECTOR = ".hero-block__callout-content h1";
         const HERO_H3_SELECTOR = ".hero-block__callout-content h3";
         const HERO_BUTTON_SELECTOR = ".hero-block__callout-content a";
-        elementReady$1(HERO_CONTAINER_SELECTOR).then((hero) => {
+        elementReady(HERO_CONTAINER_SELECTOR).then((hero) => {
             if (enabled) {
                 const heroImage = hero.querySelector(HERO_IMAGE_SELECTOR);
                 heroImage.style.backgroundImage = `url(${image_url})`;
@@ -192,8 +192,8 @@
         const BANNER_SELECTOR = ".top-header";
         const BANNER_TEXT_SELECTOR = ".top-header__banner-text p";
         const MARKET_WRAPPER_SELECTOR = ".market-selector__wrapper";
-        elementReady$1(PRODUCT_DETAIL_SELECTOR).then(() => {
-            elementReady$1(BANNER_SELECTOR).then((banner) => {
+        elementReady(PRODUCT_DETAIL_SELECTOR).then(() => {
+            elementReady(BANNER_SELECTOR).then((banner) => {
                 const text = banner.querySelector(BANNER_TEXT_SELECTOR);
                 const marketSel = banner.querySelector(MARKET_WRAPPER_SELECTOR);
                 // always hide the market selector
