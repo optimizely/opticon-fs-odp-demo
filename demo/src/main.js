@@ -3,7 +3,7 @@ import { getOptimizelyUserContext } from "./fs";
 import { documentReady, setLocalFlagsUserAttributes } from "./lib";
 import { renderBanner, renderHero } from "./features";
 import * as optimizely from "@optimizely/optimizely-sdk";
-// import * as fs2odp from './fs2odp';
+import * as fs2odp from "./fs2odp";
 
 const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
 
@@ -22,11 +22,11 @@ odpReady().then(() => {
     });
     window.optimizelyClient = optimizelyClient;
     optimizelyClient.onReady(() => {
-        console.log("window.optimizelyCient is ready")
+        console.log("window.optimizelyCient is ready");
+        fs2odp.addNotficationListeners(optimizelyClient, window.odpClient);
     })
 
     documentReady().then(() => {
-
 
 
         /**

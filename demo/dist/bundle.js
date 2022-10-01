@@ -216,7 +216,56 @@
         });
     }
 
-    // import * as fs2odp from './fs2odp';
+    /**
+     * Transforms a `DecisionListenerPayload` into a `DecisionOdpPayload`
+     * @param d - A `DecisionListenerPayload`
+     * @returns A corresponding `DecisionOdpPayload` object
+     */
+    function createDecisionOdpPayload(d) {
+        return {
+            action: "decision",
+            fs_user_id: d.userId,
+            fs_attributes: serialize(d.attributes),
+            fs_flag_key: d.decisionInfo.flagKey,
+            fs_enabled: d.decisionInfo.enabled,
+            fs_variation_key: d.decisionInfo.variationKey || "",
+            fs_rule_key: d.decisionInfo.ruleKey || "",
+            fs_variables: serialize(d.decisionInfo.variables),
+            fs_reasons: serialize(d.decisionInfo.reasons),
+        };
+    }
+    /**
+     * Transforms a `TrackEventListenerPayload` into a `TrackEventOdpPayload`
+     * @param {optimizely.TrackListenerPayload} e - A `TrackEventListenerPayload`
+     * @returns A corresponding `DecisionOdpPayload` object
+     */
+    function createTrackOdpPayload(e) {
+        return {
+            action: "track_event",
+            fs_user_id: e.userId,
+            fs_attributes: serialize(e.attributes),
+            fs_event_key: e.eventKey
+        };
+    }
+    /**
+     * Add ODP notification listeners to a Full Stack SDK client
+     * @param {optimizely.Client} client - An Optimizely Full Stack client
+     */
+    function addNotficationListeners(optimizelyClient, odpClient) {
+        // Send an ODP event whenever a flag decision is made
+        optimizelyClient.notificationCenter.addNotificationListener(enums.NOTIFICATION_TYPES.DECISION, (d) => odpClient.event(ODP_EVENT_TYPE, createDecisionOdpPayload(d)));
+        // Send an ODP event whenever a Full Stack event is tracked
+        client.notificationCenter.addNotificationListener(enums.NOTIFICATION_TYPES.TRACK, (e) => odpClient.event(ODP_EVENT_TYPE, createTrackOdpPayload(e)));
+    }
+    /**
+     * ODP escapes quote characters, so we remove them from serialized objects
+     * @param {any} obj
+     */
+    function serialize(obj) {
+        let json = JSON.stringify(obj);
+        return json.replaceAll("\"", "");
+    }
+
     const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
     odpReady().then(() => {
         console.log("window.zaius is ready");
@@ -232,6 +281,7 @@
         window.optimizelyClient = optimizelyClient;
         optimizelyClient.onReady(() => {
             console.log("window.optimizelyCient is ready");
+            addNotficationListeners(optimizelyClient, window.odpClient);
         });
         documentReady().then(() => {
             /**
