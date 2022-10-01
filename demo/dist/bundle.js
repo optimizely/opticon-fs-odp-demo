@@ -342,7 +342,6 @@
 
     const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
     odpReady().then(() => {
-        console.log("window.zaius is ready");
         // Instrument the Add to Cart button to update hasPurchased in local storage
         instrumentAddToCart();
         /**
