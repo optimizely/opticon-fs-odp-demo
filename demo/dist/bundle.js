@@ -123,7 +123,9 @@
                 // When the button is clicked, add an attribute to the local storage, and set an
                 // ODP customer attribute
                 addToCart.addEventListener("click", () => {
+                    // Store has_purchased_local in local storage
                     setLocalFlagsUserAttributes({ "has_purchased_local": true });
+                    // Set the has_purchased ODP attribute
                     window.odpClient.customer({}, {
                         "has_purchased": true
                     });

@@ -16,7 +16,10 @@ function instrumentAddToCart() {
             // ODP customer attribute
             addToCart.addEventListener("click", () => {
 
+                // Store has_purchased_local in local storage
                 setLocalFlagsUserAttributes({ "has_purchased_local": true });
+
+                // Set the has_purchased ODP attribute
                 window.odpClient.customer({}, {
                     "has_purchased": true
                 });
