@@ -30,3 +30,5 @@ function instrumentAddToCart() {
     });
 
 }
+
+export { instrumentAddToCart }

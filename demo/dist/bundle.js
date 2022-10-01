@@ -49,7 +49,7 @@
      * Set one or more local flag user attributes
      * @param {*} attrs
      */
-    function setLocalFlagsUserAttributes(attrs) {
+    function setLocalFlagsUserAttributes$1(attrs) {
         Object.entries(attrs).forEach(([key, val]) => {
             if (val === null || val === undefined) {
                 localStorage.removeItem(ATTR_PREFIX + key);
@@ -77,7 +77,7 @@
     }
     // Use mutationovbservers to wait for a dom element to be loaded
     // https://stackoverflow.com/questions/5525071/how-to-wait-until-an-element-exists
-    function elementReady(selector) {
+    function elementReady$1(selector) {
         return new Promise(resolve => {
             if (document.querySelector(selector)) {
                 return resolve(document.querySelector(selector));
@@ -162,7 +162,7 @@
         const HERO_H1_SELECTOR = ".hero-block__callout-content h1";
         const HERO_H3_SELECTOR = ".hero-block__callout-content h3";
         const HERO_BUTTON_SELECTOR = ".hero-block__callout-content a";
-        elementReady(HERO_CONTAINER_SELECTOR).then((hero) => {
+        elementReady$1(HERO_CONTAINER_SELECTOR).then((hero) => {
             if (enabled) {
                 const heroImage = hero.querySelector(HERO_IMAGE_SELECTOR);
                 heroImage.style.backgroundImage = `url(${image_url})`;
@@ -192,8 +192,8 @@
         const BANNER_SELECTOR = ".top-header";
         const BANNER_TEXT_SELECTOR = ".top-header__banner-text p";
         const MARKET_WRAPPER_SELECTOR = ".market-selector__wrapper";
-        elementReady(PRODUCT_DETAIL_SELECTOR).then(() => {
-            elementReady(BANNER_SELECTOR).then((banner) => {
+        elementReady$1(PRODUCT_DETAIL_SELECTOR).then(() => {
+            elementReady$1(BANNER_SELECTOR).then((banner) => {
                 const text = banner.querySelector(BANNER_TEXT_SELECTOR);
                 const marketSel = banner.querySelector(MARKET_WRAPPER_SELECTOR);
                 // always hide the market selector
@@ -212,6 +212,29 @@
                     console.log("Hiding banner block");
                     banner.style.display = "none";
                 }
+            });
+        });
+    }
+
+    /**
+     * Site hacks and instrumentation
+     */
+    /**
+     * Instrument the Add to Cart button to update hasPurchased in local storage
+     */
+    function instrumentAddToCart() {
+        documentReady().then(() => {
+            const ADD_TO_CART_SELECTOR = ".addToCart";
+            // Wait for the Add to Cart button to be added to the DOM
+            elementReady(ADD_TO_CART_SELECTOR).then((addToCart) => {
+                // When the button is clicked, add an attribute to the local storage, and set an
+                // ODP customer attribute
+                addToCart.addEventListener("click", () => {
+                    setLocalFlagsUserAttributes({ "has_purchased_local": true });
+                    window.odpClient.customer({}, {
+                        "has_purchased": true
+                    });
+                });
             });
         });
     }
@@ -282,6 +305,8 @@
     const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
     odpReady().then(() => {
         console.log("window.zaius is ready");
+        // Instrument the Add to Cart button to update hasPurchased in local storage
+        instrumentAddToCart();
         /**
          * Initialize the Flags SDK
          * Doing this after odpReady() resolves ensures that the ODP client
@@ -312,7 +337,7 @@
                 // dependent flags will be decided correctly
                 if (heroDecision.enabled) {
                     // Set a user attribute in local storage
-                    setLocalFlagsUserAttributes({
+                    setLocalFlagsUserAttributes$1({
                         has_seen_offer_local: true
                     });
                     // Set an ODP customer attribute
