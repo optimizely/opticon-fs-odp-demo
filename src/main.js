@@ -2,6 +2,7 @@ import { odpReady } from "./odp";
 import { getOptimizelyUserContext } from "./fs";
 import { documentReady, setLocalFlagsUserAttributes } from "./lib";
 import { renderBanner, renderHero } from "./features";
+import * as optimizely from "@optimizely/optimizely-sdk";
 
 const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
 
@@ -15,7 +16,7 @@ odpReady().then(() => {
      * is also initialized for any code that depends on both flags and
      * ODP 
      */
-    const optimizelyClient = window.optimizelySdk.createInstance({
+    const optimizelyClient = optimizely.createInstance({
         sdkKey: OPTIMIZELY_SDK_KEY
     });
     window.optimizelyClient = optimizelyClient;
