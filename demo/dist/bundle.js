@@ -252,10 +252,21 @@
      * @param {optimizely.Client} client - An Optimizely Full Stack client
      */
     function addNotficationListeners(optimizelyClient, odpClient) {
+        console.log("Adding fs2odp notification listeners");
         // Send an ODP event whenever a flag decision is made
-        optimizelyClient.notificationCenter.addNotificationListener(enums.NOTIFICATION_TYPES.DECISION, (d) => odpClient.event(ODP_EVENT_TYPE, createDecisionOdpPayload(d)));
+        optimizelyClient.notificationCenter.addNotificationListener(enums.NOTIFICATION_TYPES.DECISION, (d) => {
+            const payload = createDecisionOdpPayload(d);
+            console.log("Sending ODP decision event");
+            console.log(payload);
+            odpClient.event(ODP_EVENT_TYPE, payload);
+        });
         // Send an ODP event whenever a Full Stack event is tracked
-        client.notificationCenter.addNotificationListener(enums.NOTIFICATION_TYPES.TRACK, (e) => odpClient.event(ODP_EVENT_TYPE, createTrackOdpPayload(e)));
+        client.notificationCenter.addNotificationListener(enums.NOTIFICATION_TYPES.TRACK, (e) => {
+            const payload = createTrackOdpPayload(e);
+            console.log("Sending ODP track event");
+            console.log(payload);
+            odpClient.event(ODP_EVENT_TYPE, createTrackOdpPayload(e));
+        });
     }
     /**
      * ODP escapes quote characters, so we remove them from serialized objects
@@ -279,9 +290,9 @@
             sdkKey: OPTIMIZELY_SDK_KEY
         });
         window.optimizelyClient = optimizelyClient;
+        addNotficationListeners(optimizelyClient, window.odpClient);
         optimizelyClient.onReady(() => {
             console.log("window.optimizelyCient is ready");
-            addNotficationListeners(optimizelyClient, window.odpClient);
         });
         documentReady().then(() => {
             /**

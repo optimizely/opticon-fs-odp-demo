@@ -21,9 +21,9 @@ odpReady().then(() => {
         sdkKey: OPTIMIZELY_SDK_KEY
     });
     window.optimizelyClient = optimizelyClient;
+    fs2odp.addNotficationListeners(optimizelyClient, window.odpClient);
     optimizelyClient.onReady(() => {
         console.log("window.optimizelyCient is ready");
-        fs2odp.addNotficationListeners(optimizelyClient, window.odpClient);
     })
 
     documentReady().then(() => {
