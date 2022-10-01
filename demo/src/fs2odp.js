@@ -1,3 +1,5 @@
+import { enums } from "@optimizely/optimizely-sdk"
+
 /**
  * Transforms a `DecisionListenerPayload` into a `DecisionOdpPayload`
  * @param d - A `DecisionListenerPayload`
