@@ -196,6 +196,7 @@
         });
     }
 
+    // import * as optimizely from '../optimizely/javascript-sdk/packages/optimizely-sdk/dist/optimizely-sdk'
     const OPTIMIZELY_SDK_KEY = "3DHbmsE3z3y3Fb1qmexbA";
     odpReady().then(() => {
         console.log("window.zaius is ready");
@@ -210,7 +211,7 @@
         });
         window.optimizelyClient = optimizelyClient;
         optimizelyClient.onReady(() => {
-            console.log("window.optimizelyCient is ready");
+            console.log("window.optimizelyClient is ready");
         });
         documentReady().then(() => {
             /**

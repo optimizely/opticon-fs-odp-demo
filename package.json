@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-mosey": "tsc && rollup -c",
     "build-fs": "./bin/build-fs.sh",
-    "build": "npm run build-fs && npm run build-mosey"
+    "build": "npm run build-fs && npm run build-mosey",
+    "postinstall": "./bin/postinstall.sh"
   },
   "repository": {
     "type": "git",

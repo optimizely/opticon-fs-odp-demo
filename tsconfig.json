@@ -5,15 +5,17 @@
         "moduleResolution": "node",
         "noEmitOnError": true,
         "lib": [
-            "es2017"
+            "es2018",
+            "dom"
         ],
         "strict": true,
-        "esModuleInterop": false,
+        "esModuleInterop": true,
         "outDir": "out-tsc",
         "rootDir": "./",
         "allowJs": true,
     },
     "include": [
-        "./src/**/*"
+        "./src/**/*",
+        "./optimizely/javascript-sdk/**/*"
     ]
 }
