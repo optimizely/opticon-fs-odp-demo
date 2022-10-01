@@ -49,7 +49,7 @@
      * Set one or more local flag user attributes
      * @param {*} attrs
      */
-    function setLocalFlagsUserAttributes$1(attrs) {
+    function setLocalFlagsUserAttributes(attrs) {
         Object.entries(attrs).forEach(([key, val]) => {
             if (val === null || val === undefined) {
                 localStorage.removeItem(ATTR_PREFIX + key);
@@ -337,7 +337,7 @@
                 // dependent flags will be decided correctly
                 if (heroDecision.enabled) {
                     // Set a user attribute in local storage
-                    setLocalFlagsUserAttributes$1({
+                    setLocalFlagsUserAttributes({
                         has_seen_offer_local: true
                     });
                     // Set an ODP customer attribute
