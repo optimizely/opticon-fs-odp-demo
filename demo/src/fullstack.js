@@ -9,18 +9,19 @@ function getOptimizelyUserId() {
     const USER_ID_PARAM = "userid";
     const USER_ID_KEY = "fs_user_id";
 
-    var userId = getParam(USER_ID_PARAM);
+    // Attempt to retrieve userId from a url parameter
+    const fromParam = getParam(USER_ID_PARAM);
 
-    // If the userId was not specified in an url param, try to retrieve from local storage
-    if (userId === null) {
-        userId = localStorage.getItem(USER_ID_KEY);
+    // Attempt to retrieve userId from local storage
+    const fromStorage = localStorage.getItem(USER_ID_KEY);
+
+    // Clear local storage if a new userId was specifed via url param
+    if (fromParam !== null && fromParam != fromStorage) {
+        localStorage.clear();
     }
 
-    // If the userId wasn't specified in local storage either, generate one
-    if (userId === null) {
-        const rand = Math.floor(Math.random() * 10000);
-        userId = `fs_user_id_${rand}`;
-    }
+    const rand = Math.floor(Math.random() * 10000);
+    const userId = fromParam || fromStorage || `fs_user_id_${rand}`;
 
     // Store the user ID in local storage
     localStorage.setItem(USER_ID_KEY, userId);
