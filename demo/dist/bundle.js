@@ -111,6 +111,15 @@
             };
         });
     }
+    /**
+     * getParam
+     * @param {string} param
+     * @returns the value of the specified param (string or null)
+     */
+    function getParam(param) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(param) || null;
+    }
 
     /**
      * Instrument the Add to Cart button to update hasPurchased in local storage
@@ -139,16 +148,21 @@
      * @returns {string} a locally-stored value for fs_user_id
      */
     function getOptimizelyUserId() {
+        const USER_ID_PARAM = "userid";
         const USER_ID_KEY = "fs_user_id";
-        var fromStorage = localStorage.getItem(USER_ID_KEY);
-        // If a userId isn't found in local storage, generate one
-        if (fromStorage === null || fromStorage === undefined) {
-            const rand = Math.floor(Math.random() * 10000);
-            const newUserId = `fs_user_id_${rand}`;
-            localStorage.setItem(USER_ID_KEY, newUserId);
-            fromStorage = newUserId;
+        var userId = getParam(USER_ID_PARAM);
+        // If the userId was not specified in an url param, try to retrieve from local storage
+        if (userId === null) {
+            userId = localStorage.getItem(USER_ID_KEY);
         }
-        return fromStorage;
+        // If the userId wasn't specified in local storage either, generate one
+        if (userId === null) {
+            const rand = Math.floor(Math.random() * 10000);
+            userId = `fs_user_id_${rand}`;
+        }
+        // Store the user ID in local storage
+        localStorage.setItem(USER_ID_KEY, userId);
+        return userId;
     }
     /**
      * Returns an Optimizely user context object
