@@ -38,13 +38,13 @@ function createTrackOdpPayload(e) {
 
 /**
  * Add ODP notification listeners to a Full Stack SDK client
- * @param {optimizely.Client} client - An Optimizely Full Stack SDK client
+ * @param {optimizely.Client} fsClient - An Optimizely Full Stack SDK client
  * @param {ZaiusClient} odpClient - An Optimizely Data Platform SDK client
  */
-export function addNotficationListeners(optimizelyClient, odpClient) {
+export function addNotficationListeners(fsClient, odpClient) {
     console.log("Adding fs2odp notification listeners");
     // Send an ODP event whenever a flag decision is made
-    optimizelyClient.notificationCenter.addNotificationListener(
+    fsClient.notificationCenter.addNotificationListener(
         enums.NOTIFICATION_TYPES.DECISION,
         (d) => {
             const payload = createDecisionOdpPayload(d);
@@ -55,7 +55,7 @@ export function addNotficationListeners(optimizelyClient, odpClient) {
     );
 
     // Send an ODP event whenever a Full Stack event is tracked
-    optimizelyClient.notificationCenter.addNotificationListener(
+    fsClient.notificationCenter.addNotificationListener(
         enums.NOTIFICATION_TYPES.TRACK,
         (e) => {
             const payload = createTrackOdpPayload(e);
