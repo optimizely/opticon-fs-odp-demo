@@ -27,11 +27,6 @@ function decideAndRenderHeroPromo() {
         // dependent flags will be decided correctly
         if (heroDecision.enabled) {
 
-            // Set a user attribute in local storage
-            setLocalFlagsUserAttributes({
-                has_seen_offer_local: true
-            });
-
             // Set an ODP customer attribute
             window.odpClient.customer({}, {
                 has_seen_offer: true
