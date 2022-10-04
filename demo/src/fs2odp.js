@@ -5,7 +5,7 @@ export const ODP_EVENT_TYPE = "optimizely_full_stack";
 
 /**
  * Transforms a `DecisionListenerPayload` into a `DecisionOdpPayload`
- * @param d - A `DecisionListenerPayload`
+ * @param {optimizely.DecisionListenerPayload} d - A `DecisionListenerPayload`
  * @returns A corresponding `DecisionOdpPayload` object
  */
 function createDecisionOdpPayload(d) {
@@ -38,7 +38,8 @@ function createTrackOdpPayload(e) {
 
 /**
  * Add ODP notification listeners to a Full Stack SDK client
- * @param {optimizely.Client} client - An Optimizely Full Stack client
+ * @param {optimizely.Client} client - An Optimizely Full Stack SDK client
+ * @param {ZaiusClient} odpClient - An Optimizely Data Platform SDK client
  */
 export function addNotficationListeners(optimizelyClient, odpClient) {
     console.log("Adding fs2odp notification listeners");
